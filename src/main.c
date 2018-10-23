@@ -1,11 +1,10 @@
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <jvcr_ecm_01/consts.h>
+#include <jvcr_ecm_01/machine.h>
 
-#define WIDTH 256
-#define HEIGHT 144
-
-const float RATIO = WIDTH / (float) HEIGHT;
+const float RATIO = DISPLAY_WIDTH / (float) DISPLAY_HEIGHT;
 
 struct GLpoint {
   GLint x;
@@ -25,8 +24,8 @@ static struct GLpoint setup_viewport(GLFWwindow *window) {
   int screen_width, screen_height;
   glfwGetFramebufferSize(window, &screen_width, &screen_height);
 
-  float w_r = screen_width / (float) WIDTH;
-  float h_r = screen_height / (float) HEIGHT;
+  float w_r = screen_width / (float) DISPLAY_WIDTH;
+  float h_r = screen_height / (float) DISPLAY_HEIGHT;
   float r;
 
   if (w_r > h_r) {
@@ -35,8 +34,8 @@ static struct GLpoint setup_viewport(GLFWwindow *window) {
     r = w_r;
   }
 
-  int width = WIDTH * (int) r;
-  int height = HEIGHT * (int) r;
+  int width = DISPLAY_WIDTH * (int) r;
+  int height = DISPLAY_HEIGHT * (int) r;
 
 //  printf("[%f %f] [%d %d] [%d %d]\n", w_r, h_r, screen_width, screen_height, width, height);
 
@@ -61,10 +60,12 @@ static void create_texture(const GLvoid *pixels) {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, WIDTH, HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, DISPLAY_WIDTH, DISPLAY_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 }
 
 int main(void) {
+  Jvcr* machine = NewJvcr();
+
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
@@ -72,7 +73,7 @@ int main(void) {
   glfwSetErrorCallback(error_callback);
   if (!glfwInit())
     exit(EXIT_FAILURE);
-  window = glfwCreateWindow(WIDTH * 4, HEIGHT * 4, "Simple example", NULL, NULL);
+  window = glfwCreateWindow(DISPLAY_WIDTH * 4, DISPLAY_HEIGHT * 4, "Simple example", NULL, NULL);
   if (!window) {
     glfwTerminate();
     exit(EXIT_FAILURE);
@@ -80,13 +81,13 @@ int main(void) {
   glfwMakeContextCurrent(window);
   glfwSetKeyCallback(window, key_callback);
 
-  GLubyte data[WIDTH * HEIGHT * 4];
+  GLubyte data[DISPLAY_WIDTH * DISPLAY_HEIGHT * DISPLAY_CHANNELS];
   GLuint texture_id;
   glGenTextures(1, &texture_id);
   glBindTexture(GL_TEXTURE_2D, texture_id);
-  for (size_t i = 0; i < WIDTH; i++) {
-    for (size_t j = 0; j < HEIGHT; j++) {
-      size_t index = j * WIDTH + i;
+  for (size_t i = 0; i < DISPLAY_WIDTH; i++) {
+    for (size_t j = 0; j < DISPLAY_HEIGHT; j++) {
+      size_t index = j * DISPLAY_WIDTH + i;
       size_t c = i * j;
       data[4 * index + 0] = 0xFF * (c % 2); // R
       data[4 * index + 1] = 0xFF * (c % 2); // G
@@ -122,5 +123,8 @@ int main(void) {
 
   glfwDestroyWindow(window);
   glfwTerminate();
+
+  DestroyJvcr(machine);
+
   exit(EXIT_SUCCESS);
 }
