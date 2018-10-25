@@ -22,6 +22,7 @@ void DestroyJvcr(Jvcr *machine) {
 JvcrRam *NewJvcrRam() {
   JvcrRam *ram = (JvcrRam *) malloc(sizeof(JvcrRam));
   ram->memory = (byte *) calloc(sizeof(byte), RAM_SIZE);
+  for (size_t i = 0; i< RAM_SIZE; ram->memory[i++] = 0);
   return ram;
 }
 void DestroyJvcrRam(JvcrRam *ram) {
