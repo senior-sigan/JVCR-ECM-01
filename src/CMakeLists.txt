@@ -1,0 +1,3 @@
+project(JVCR-ECM-01 C)
+
+add_library(JVCR-ECM-01 SHARED STATIC ${SOURCES} ${HEADERS})
