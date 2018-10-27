@@ -87,3 +87,8 @@ void line(Jvcr *machine, i32 x0, i32 y0, i32 x1, i32 y1, byte color) {
     }
   }
 }
+void rectfill(Jvcr *machine, i32 x, i32 y, u32 w, u32 h, byte color) {
+  for (i32 i = y; i < y+(i32)h; i++) { // TODO: we do not need this cast here!
+    line(machine, x, i, x+w-1, i, color);
+  }
+}

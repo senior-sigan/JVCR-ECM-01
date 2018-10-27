@@ -7,9 +7,6 @@
 
 #define DRAW_TIME 20
 static void empty_draw(Jvcr *, double);
-static void random_noice_draw(Jvcr *, double);
-static void random_fade_draw(Jvcr *, double);
-static void lines_draw(Jvcr *, double);
 
 static void random_noice_draw(Jvcr *machine, double delta) {
   for (u32 x = 0; x < DISPLAY_WIDTH; x++) {
@@ -21,7 +18,7 @@ static void random_noice_draw(Jvcr *machine, double delta) {
 
   if (machine->time > DRAW_TIME) { // after 10 seconds enable another demo
     machine->time = 0;
-    machine->onDraw = &lines_draw;
+    machine->onDraw = &empty_draw;
   }
 }
 
@@ -87,10 +84,22 @@ static void lines_prisma_draw(Jvcr *machine, double delta) {
   }
 }
 
+static void rect_pallet_draw(Jvcr *machine, double delta) {
+  const u32 w = DISPLAY_WIDTH / PALETTE_LEN;
+  for (byte i = 0; i < PALETTE_LEN; i++) {
+    rectfill(machine, i*w, 0, w, DISPLAY_HEIGHT, i);
+  }
+
+  if (machine->time > DRAW_TIME) { // after 10 seconds enable another demo
+    machine->time = 0;
+    machine->onDraw = &lines_prisma_draw;
+  }
+}
+
 void empty_draw(Jvcr *machine, double delta) {
   if (machine->time > 1) { // after 10 seconds enable another demo
     machine->time = 0;
-    machine->onDraw = &lines_prisma_draw;
+    machine->onDraw = &rect_pallet_draw;
   }
 }
 
