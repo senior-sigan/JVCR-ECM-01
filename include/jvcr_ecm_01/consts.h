@@ -6,7 +6,8 @@
 #define DISPLAY_CHANNELS 4
 
 #define SCREEN_START 0x0
-#define SCREEN_SIZE 0x4800 // 256x144 4-bit screen
+// To avoid 4bit settings, and simplify code we allocate 8 bits for color instead of 4 bits.
+#define SCREEN_SIZE 0x9000 // 256x144 4-bit screen.
 #define SCREEN_END (SCREEN_START+SCREEN_SIZE)
 
 #define PALETTE_START SCREEN_END

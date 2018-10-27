@@ -28,3 +28,21 @@ TEST(ram_test, jvcr_memcpy) {
   ASSERT_EQ(ram->memory[42+10], 0);
   ASSERT_EQ(ram->memory[42-1], 0);
 }
+
+TEST(ram_test, jvcr_memset) {
+  JvcrRam *ram = NewJvcrRam();
+  u32 dest = 42;
+  u32 len = 10;
+  jvcr_memset(ram, dest, 128, len);
+  for (int i = 0; i < len; i++) {
+    ASSERT_EQ(128, ram->memory[i + dest]);
+  }
+  ASSERT_EQ(ram->memory[42+10], 0);
+  ASSERT_EQ(ram->memory[42-1], 0);
+}
+
+TEST(ram_test, ram_peek_poke) {
+  JvcrRam *ram = NewJvcrRam();
+  jvcr_poke(ram, 42, 128);
+  ASSERT_EQ(jvcr_peek(ram, 42), 128);
+}
