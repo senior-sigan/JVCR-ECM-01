@@ -8,8 +8,9 @@
  * This structure contains openGL info
  */
 typedef struct JvcrDisplay {
+  // TODO: actually this types is rendering system specific. How to incapsulate it into the implementation?
   byte *texture;
-  byte texture_id;
+  unsigned int texture_id;
 } JvcrDisplay;
 
 typedef struct JvcrRam {
@@ -30,13 +31,14 @@ void DestroyJvcrRam(JvcrRam*);
 JvcrDisplay* NewJvcrDisplay();
 void DestroyJvcrDisplay(JvcrDisplay*);
 
+typedef void (*OnDraw)(Jvcr*); // called once per visible frame
 
-void Draw(Jvcr *);
+void RunLoop(Jvcr *, OnDraw);
 
 void OnInit(Jvcr *); // Called once on program startup
 void OnDestroy(Jvcr *); // Called once on program just before it's been destroyed
-void OnUpdate(Jvcr *); // called once per update at 30fps
-void OnUpdate60(Jvcr *);// called once per update at 60fps
-void OnDraw(Jvcr *); // called once per visible frame
+//void OnUpdate(Jvcr *); // called once per update at 30fps
+//void OnUpdate60(Jvcr *);// called once per update at 60fps
+//void OnDraw(Jvcr *);
 
 #endif //JVCR_ECM_01_MACHINE_H

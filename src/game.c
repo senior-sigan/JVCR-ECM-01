@@ -12,12 +12,3 @@ void OnInit(Jvcr *machine) {
 void OnDestroy(Jvcr *machine) {
 
 }
-void OnUpdate(Jvcr *machine) {
-
-}
-void OnUpdate60(Jvcr *machine) {
-
-}
-void OnDraw(Jvcr *machine) {
-
-}

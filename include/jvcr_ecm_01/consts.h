@@ -11,7 +11,9 @@
 #define SCREEN_END (SCREEN_START+SCREEN_SIZE)
 
 #define PALETTE_START SCREEN_END
-#define PALETTE_SIZE 0x0030 // 16 x 24-bit RGBA color values
+#define PALETTE_LEN 16 // colors count
+#define PALETTE_UNIT 4 // color size in bytes
+#define PALETTE_SIZE (PALETTE_LEN*PALETTE_UNIT) // 16 x 24-bit RGBA color values
 #define PALETTE_END (PALETTE_START+PALETTE_SIZE)
 
 #define PALETTE_MAP_START PALETTE_END
