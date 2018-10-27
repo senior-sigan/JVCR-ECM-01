@@ -20,7 +20,7 @@ void print(Jvcr *machine, char* str, u32 x, u32 y, byte color); // print string
 byte pget(Jvcr *machine, u32 x, u32 y); // get pixel colour
 void pset(Jvcr *machine, u32 x, u32 y, byte color); // set pixel colour
 
-void line(Jvcr *machine, u32 x0, u32 y0, u32 x1, u32 y1, byte color); // draw line
+void line(Jvcr *machine, i32 x0, i32 y0, i32 x1, i32 y1, byte color); // draw line
 
 void circ(Jvcr *machine, i32 x, i32 y, u32 r, byte color); // draw circle
 void circfill(Jvcr *machine, i32 x, i32 y, u32 r, byte color); // draw filled circle

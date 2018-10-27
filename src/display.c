@@ -67,36 +67,23 @@ RGBA get_rgba(Jvcr *machine, byte color) {
   rgba.alpha = jvcr_peek(machine->ram, index + 3);
   return rgba;
 }
-void line(Jvcr *machine, u32 x0, u32 y0, u32 x1, u32 y1, byte color) {
-  if (x0 > x1) {
-    u32 tmp = x0;
-    x0 = x1;
-    x1 = tmp;
-  }
+void line(Jvcr *machine, i32 x0, i32 y0, i32 x1, i32 y1, byte color) {
+  i32 dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
+  i32 dy = abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
+  i32 err = (dx > dy ? dx : -dy) / 2;
+  i32 e2;
 
-  if (y0 > y1) {
-    u32 tmp = y0;
-    y0 = y1;
-    y1 = tmp;
-  }
-
-  u32 dx = x1 - x0;
-  u32 dy = y1 - y0;
-
-  if (dx < 1 && dy < 1) {
-    pset(machine, x0, y1, color);
-    return;
-  }
-
-  if (dx > dy) {
-    for (u32 x = x0; x <= x1; x++) {
-      u32 y = y0 + dy * (x - x0) / dx;
-      pset(machine, x, y, color);
+  for (;;) {
+    pset(machine, (u32) x0, (u32) y0, color); // TODO: may be not cast to u32?
+    if (x0 == x1 && y0 == y1) break;
+    e2 = err;
+    if (e2 > -dx) {
+      err -= dy;
+      x0 += sx;
     }
-  } else {
-    for (u32 y = y0; y <= y1; y++) {
-      u32 x = x0 + dx * (y - y0) / dy;
-      pset(machine, x, y, color);
+    if (e2 < dy) {
+      err += dx;
+      y0 += sy;
     }
   }
 }
