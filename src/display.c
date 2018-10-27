@@ -23,7 +23,7 @@ void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue) {
     return;
   }
 
-  ptr_t index = PALETTE_START + (ptr_t)color * PALETTE_UNIT;
+  ptr_t index = PALETTE_START + (ptr_t) color * PALETTE_UNIT;
   jvcr_poke(machine->ram, index, red);
   jvcr_poke(machine->ram, index + 1, green);
   jvcr_poke(machine->ram, index + 2, blue);
@@ -66,4 +66,37 @@ RGBA get_rgba(Jvcr *machine, byte color) {
   rgba.blue = jvcr_peek(machine->ram, index + 2);
   rgba.alpha = jvcr_peek(machine->ram, index + 3);
   return rgba;
+}
+void line(Jvcr *machine, u32 x0, u32 y0, u32 x1, u32 y1, byte color) {
+  if (x0 > x1) {
+    u32 tmp = x0;
+    x0 = x1;
+    x1 = tmp;
+  }
+
+  if (y0 > y1) {
+    u32 tmp = y0;
+    y0 = y1;
+    y1 = tmp;
+  }
+
+  u32 dx = x1 - x0;
+  u32 dy = y1 - y0;
+
+  if (dx < 1 && dy < 1) {
+    pset(machine, x0, y1, color);
+    return;
+  }
+
+  if (dx > dy) {
+    for (u32 x = x0; x <= x1; x++) {
+      u32 y = y0 + dy * (x - x0) / dx;
+      pset(machine, x, y, color);
+    }
+  } else {
+    for (u32 y = y0; y <= y1; y++) {
+      u32 x = x0 + dx * (y - y0) / dy;
+      pset(machine, x, y, color);
+    }
+  }
 }

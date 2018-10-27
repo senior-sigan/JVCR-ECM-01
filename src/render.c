@@ -174,13 +174,13 @@ static double get_current_time() {
 }
 
 void RunLoop(Jvcr *machine) {
-  double start_time = get_current_time();
+//  double start_time = get_current_time();
   double prev_time = get_current_time();
   while (!glfwWindowShouldClose(window)) {
     double end_time = get_current_time();
     double delta_time = end_time - prev_time;
     prev_time = get_current_time();
-    machine->time = end_time - start_time;
+    machine->time += delta_time;
 
     // TODO: somehow separate this calls to fit the logic and documentation
     if (machine->onDraw != NULL) machine->onDraw(machine, delta_time);
