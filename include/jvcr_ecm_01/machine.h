@@ -20,6 +20,12 @@ typedef struct JvcrRam {
 typedef struct Jvcr {
   JvcrRam *ram;
   JvcrDisplay *display;
+  double time;
+  void (*onDraw)(struct Jvcr*, double); // called once per visible frame
+  void (*onUpdate)(struct Jvcr*, double); // called once per update at 30fps
+  void (*onUpdate60)(struct Jvcr*, double); // called once per update at 60fps
+  void (*onInit)(struct Jvcr*); // Called once on program startup
+  void (*onDestroy)(struct Jvcr*); // Called once on program just before it's been destroyed
 } Jvcr;
 
 Jvcr* NewJvcr();
@@ -31,14 +37,6 @@ void DestroyJvcrRam(JvcrRam*);
 JvcrDisplay* NewJvcrDisplay();
 void DestroyJvcrDisplay(JvcrDisplay*);
 
-typedef void (*OnDraw)(Jvcr*); // called once per visible frame
-
-void RunLoop(Jvcr *, OnDraw);
-
-void OnInit(Jvcr *); // Called once on program startup
-void OnDestroy(Jvcr *); // Called once on program just before it's been destroyed
-//void OnUpdate(Jvcr *); // called once per update at 30fps
-//void OnUpdate60(Jvcr *);// called once per update at 60fps
-//void OnDraw(Jvcr *);
+void RunLoop(Jvcr *);
 
 #endif //JVCR_ECM_01_MACHINE_H

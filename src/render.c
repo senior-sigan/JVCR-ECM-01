@@ -4,6 +4,8 @@
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <jvcr_ecm_01/ram.h>
+#include <time.h>
+#include <math.h>
 
 static GLFWwindow *window;
 
@@ -113,7 +115,6 @@ static void fill_texture(Jvcr *machine) {
     for (u32 y = 0; y < DISPLAY_HEIGHT; y++) {
       byte color_index = pget(machine, x, y);
       RGBA color = get_rgba(machine, color_index);
-      printf("color=%d rgb=[%d,%d,%d]\n", color_index, color.red, color.green, color.blue);
 
       size_t index = y * DISPLAY_WIDTH + x;
       byte *tex = machine->display->texture;
@@ -160,9 +161,32 @@ void Draw(Jvcr *machine) {
   glfwPollEvents();
 }
 
-void RunLoop(Jvcr *machine, OnDraw on_draw) {
+static double get_current_time() {
+  struct timespec spec;
+  clock_gettime(CLOCK_REALTIME, &spec);
+  time_t s = spec.tv_sec;
+  double ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
+  if (ms > 999) {
+    s++;
+    ms = 0;
+  }
+  return s + ms/1000.0;
+}
+
+void RunLoop(Jvcr *machine) {
+  double start_time = get_current_time();
+  double prev_time = get_current_time();
   while (!glfwWindowShouldClose(window)) {
-    on_draw(machine);
+    double end_time = get_current_time();
+    double delta_time = end_time - prev_time;
+    prev_time = get_current_time();
+    machine->time = end_time - start_time;
+
+    // TODO: somehow separate this calls to fit the logic and documentation
+    if (machine->onDraw != NULL) machine->onDraw(machine, delta_time);
+    if (machine->onUpdate != NULL) machine->onUpdate(machine, delta_time);
+    if (machine->onUpdate60 != NULL) machine->onUpdate60(machine, delta_time);
+
     fill_texture(machine);
     update_texture(machine->display);
     Draw(machine);
