@@ -19,7 +19,7 @@ TEST(ram_test, new_ram) {
 TEST(ram_test, jvcr_memcpy) {
   JvcrRam *ram = NewJvcrRam();
   for (byte i = 0; i < 10; i++) {
-    ram->memory[i] = i+1;
+    ram->memory[i] = static_cast<byte>(i+1);
   }
   jvcr_memcpy(ram, 42, 0, 10);
   for (int i = 0; i < 10; i++) {
