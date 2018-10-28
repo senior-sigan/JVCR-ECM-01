@@ -32,6 +32,10 @@
 #define MAP_SIZE 0x9000 // 8x8 240x136 map cells
 #define MAP_END (MAP_START+MAP_SIZE)
 
+#define FONTS_START MAP_END
+#define FONTS_SIZE 0x0
+#define FONTS_END (FONTS_START+FONTS_SIZE)
+
 #define GAMEPADS_START MAP_END
 #define GAMEPADS_SIZE 0x0004 // 4 gamepads x 8 buttons (Up Down Left Right A B X Y)
 #define GAMEPADS_END (GAMEPADS_START+GAMEPADS_SIZE)
