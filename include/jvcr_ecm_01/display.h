@@ -2,6 +2,7 @@
 #define JVCR_ECM_01_VIDEO_H
 
 #include <jvcr_ecm_01/machine.h>
+#include <jvcr_ecm_01/fonts.h>
 
 typedef struct RGBA {
   byte red;
@@ -16,6 +17,7 @@ void clip(Jvcr *machine, i32 x, i32 y, u32 w, u32 h); // set screen clipping reg
 void cursor(Jvcr *machine, i32 x, i32 y); // set cursor and CR/LF margin position
 
 void print(Jvcr *machine, char* str, u32 x, u32 y, byte color); // print string
+void print_symbol(Jvcr *machine, char symbol, u32 x, u32 y, byte color); // print single symbol
 
 byte pget(Jvcr *machine, u32 x, u32 y); // get pixel colour
 void pset(Jvcr *machine, u32 x, u32 y, byte color); // set pixel colour
@@ -30,6 +32,9 @@ void rectfill(Jvcr *machine, i32 x, i32 y, u32 w, u32 h, byte color); // draw fi
 
 void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue);
 void set_default_pallet(Jvcr *machine);
+
+void set_font(Jvcr *machine, char symbol, Font font);
+void set_default_font(Jvcr* machine);
 
 RGBA get_rgba(Jvcr *machine, byte color);
 

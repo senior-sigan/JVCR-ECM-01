@@ -1,7 +1,7 @@
 #ifndef PROJECT_RENDER_H
 #define PROJECT_RENDER_H
 
-#include "machine.h"
+#include <jvcr_ecm_01/machine.h>
 
 void Draw(Jvcr *);
 

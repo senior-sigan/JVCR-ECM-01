@@ -67,8 +67,8 @@ static void lines_prisma_draw(Jvcr *machine, double delta) {
   }
 
   for (double i = fmod(t / 16, pi8); i < pi2; i += pi8) {
-    u32 x = (u32) (base/2 + (base/4) * cos(i));
-    u32 y = (u32) (base/2 + (base/4) * cos(i));
+    u32 x = (u32) (base / 2 + (base / 4) * cos(i));
+    u32 y = (u32) (base / 2 + (base / 4) * cos(i));
     line(machine, base, 0, x, y, 11);
     line(machine, 0, base, x, y, 11);
   }
@@ -87,7 +87,7 @@ static void lines_prisma_draw(Jvcr *machine, double delta) {
 static void rect_pallet_draw(Jvcr *machine, double delta) {
   const u32 w = DISPLAY_WIDTH / PALETTE_LEN;
   for (byte i = 0; i < PALETTE_LEN; i++) {
-    rectfill(machine, i*w, 0, w, DISPLAY_HEIGHT, i);
+    rectfill(machine, i * w, 0, w, DISPLAY_HEIGHT, i);
   }
 
   if (machine->time > DRAW_TIME) { // after 10 seconds enable another demo
@@ -96,10 +96,22 @@ static void rect_pallet_draw(Jvcr *machine, double delta) {
   }
 }
 
+static void print_hello_world(Jvcr *machine, double delta) {
+  cls(machine, 0);
+
+  print(machine, "Hello World!", 1, 1, 8);
+  print(machine, "JVCR_ECM_01", 1, 10, 10);
+
+  if (machine->time > DRAW_TIME) { // after 10 seconds enable another demo
+    machine->time = 0;
+    machine->onDraw = &rect_pallet_draw;
+  }
+}
+
 void empty_draw(Jvcr *machine, double delta) {
   if (machine->time > 1) { // after 10 seconds enable another demo
     machine->time = 0;
-    machine->onDraw = &rect_pallet_draw;
+    machine->onDraw = &print_hello_world;
   }
 }
 
@@ -107,6 +119,7 @@ int main(void) {
   Jvcr *machine = NewJvcr();
   machine->onDraw = &empty_draw;
   set_default_pallet(machine);
+  set_default_font(machine);
   rendering_init(machine);
   RunLoop(machine);
   rendering_stop(machine);

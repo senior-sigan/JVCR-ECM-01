@@ -1,9 +1,9 @@
 #ifndef JVCR_ECM_01_CONSTS_H
 #define JVCR_ECM_01_CONSTS_H
 
-#define DISPLAY_WIDTH 256
-#define DISPLAY_HEIGHT 144
-#define DISPLAY_CHANNELS 4
+#define DISPLAY_WIDTH 256u
+#define DISPLAY_HEIGHT 144u
+#define DISPLAY_CHANNELS 4u
 
 #define SCREEN_START 0x0
 // To avoid 4bit settings, and simplify code we allocate 8 bits for color instead of 4 bits.
@@ -11,8 +11,8 @@
 #define SCREEN_END (SCREEN_START+SCREEN_SIZE)
 
 #define PALETTE_START SCREEN_END
-#define PALETTE_LEN 16 // colors count
-#define PALETTE_UNIT 4 // color size in bytes
+#define PALETTE_LEN 16u // colors count
+#define PALETTE_UNIT 4u // color size in bytes
 #define PALETTE_SIZE (PALETTE_LEN*PALETTE_UNIT) // 16 x 24-bit RGBA color values
 #define PALETTE_END (PALETTE_START+PALETTE_SIZE)
 
@@ -33,10 +33,15 @@
 #define MAP_END (MAP_START+MAP_SIZE)
 
 #define FONTS_START MAP_END
-#define FONTS_SIZE 0x0
+#define FONT_WIDTH 5
+#define FONT_HEIGHT 7
+#define FONT_SPACING 1
+#define FONTS_UNIT 8u // 8 bytes
+#define FONTS_LEN 256u
+#define FONTS_SIZE (FONTS_UNIT*FONTS_LEN) // 8 bytes per symbol, 256 symbols
 #define FONTS_END (FONTS_START+FONTS_SIZE)
 
-#define GAMEPADS_START MAP_END
+#define GAMEPADS_START FONTS_END
 #define GAMEPADS_SIZE 0x0004 // 4 gamepads x 8 buttons (Up Down Left Right A B X Y)
 #define GAMEPADS_END (GAMEPADS_START+GAMEPADS_SIZE)
 

@@ -19,7 +19,7 @@ byte pget(Jvcr *machine, u32 x, u32 y) {
 
 void set_pallet(Jvcr *machine, byte color, byte red, byte green, byte blue) {
   if (color > PALETTE_LEN) {
-    printf("WARNING: cannot set color with id=%d, out of bound=[0, %d]", color, PALETTE_LEN);
+    printf("WARNING: cannot set color with id=%d, out of bound=[0, %d]\n", color, PALETTE_LEN);
     return;
   }
 
@@ -56,7 +56,7 @@ void set_default_pallet(Jvcr *machine) {
 RGBA get_rgba(Jvcr *machine, byte color) {
   RGBA rgba = {0, 0, 0, 0};
   if (color > PALETTE_LEN) {
-    printf("WARNING: color index should be between [0, %d], but %d", PALETTE_LEN, color);
+    printf("WARNING: color index should be between [0, %d], but %d\n", PALETTE_LEN, color);
     return rgba;
   }
 
@@ -88,7 +88,40 @@ void line(Jvcr *machine, i32 x0, i32 y0, i32 x1, i32 y1, byte color) {
   }
 }
 void rectfill(Jvcr *machine, i32 x, i32 y, u32 w, u32 h, byte color) {
-  for (i32 i = y; i < y+(i32)h; i++) { // TODO: we do not need this cast here!
-    line(machine, x, i, x+w-1, i, color);
+  for (i32 i = y; i < y + (i32) h; i++) { // TODO: we do not need this cast here!
+    line(machine, x, i, x + w - 1, i, color);
+  }
+}
+void print_symbol(Jvcr *machine, char symbol, u32 x, u32 y, byte color) {
+  ptr_t index = FONTS_START + symbol * FONTS_UNIT;
+  for (byte row = 0; row < FONTS_UNIT; row++) {
+    byte line = jvcr_peek(machine->ram, index + row);
+    for (byte col = 0; col < 8; col++) {
+      if (((line >> col) & 0x1) == 1) {
+        pset(machine, x + col, y + row, color);
+      }
+    }
+  }
+}
+void print(Jvcr *machine, char *str, u32 x, u32 y, byte color) {
+  // TODO: add \n, \t, \r and other escape symbols support
+  for (u32 i = 0; str[i] != '\0'; i++) {
+    u32 x_ = x + i * FONT_WIDTH + i * FONT_SPACING;
+    if (x_ < DISPLAY_WIDTH - FONT_WIDTH) {
+      print_symbol(machine, str[i], x_, y, color);
+    } else {
+      printf("WARNING: can't print symbol '%c': out of screen\n", str[i]);
+    }
+  }
+}
+void set_font(Jvcr *machine, char symbol, Font font) {
+  ptr_t index = FONTS_START + symbol * FONTS_UNIT;
+  for (byte i = 0; i < FONTS_UNIT; i++) {
+    jvcr_poke(machine->ram, index + i, font.lines[i]);
+  }
+}
+void set_default_font(Jvcr *machine) {
+  for (byte i = 0; i < 255; i++) {
+    set_font(machine, i, DEFAULT_FONT[i]);
   }
 }
