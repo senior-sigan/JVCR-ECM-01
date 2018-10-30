@@ -100,7 +100,7 @@ static void print_hello_world(Jvcr *machine, double delta) {
   cls(machine, 0);
 
   print(machine, "Hello World!", 1, 1, 8);
-  print(machine, "JVCR_ECM_01", 1, 10, 10);
+  print(machine, "JVCR_ECM_01\nLOL\nWAT\rOMG", 1, 10, 10);
 
   if (machine->time > DRAW_TIME) { // after 10 seconds enable another demo
     machine->time = 0;

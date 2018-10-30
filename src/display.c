@@ -105,13 +105,26 @@ void print_symbol(Jvcr *machine, char symbol, u32 x, u32 y, byte color) {
 }
 void print(Jvcr *machine, char *str, u32 x, u32 y, byte color) {
   // TODO: add \n, \t, \r and other escape symbols support
+  u32 x_ = x;
+  u32 y_ = y;
   for (u32 i = 0; str[i] != '\0'; i++) {
-    u32 x_ = x + i * FONT_WIDTH + i * FONT_SPACING;
+    x_ += FONT_WIDTH + FONT_SPACING;
+    // TODO: it should be state machine, but .....
+    if (str[i] == '\n') {
+      y_ += FONT_HEIGHT + FONT_SPACING;
+      x_ = x;
+      continue;
+    } else if (str[i] == '\r') {
+      x_ = x;
+      continue;
+    }
+
     if (x_ < DISPLAY_WIDTH - FONT_WIDTH) {
-      print_symbol(machine, str[i], x_, y, color);
+      print_symbol(machine, str[i], x_, y_, color);
     } else {
       printf("WARNING: can't print symbol '%c': out of screen\n", str[i]);
     }
+
   }
 }
 void set_font(Jvcr *machine, char symbol, Font font) {
