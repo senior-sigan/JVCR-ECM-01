@@ -92,6 +92,13 @@ void rectfill(Jvcr *machine, i32 x, i32 y, u32 w, u32 h, byte color) {
     line(machine, x, i, x + w - 1, i, color);
   }
 }
+void rect(Jvcr *machine, i32 x, i32 y, u32 w, u32 h, byte color) {
+  line(machine, x, y, x + w, y, color);
+  line(machine, x, y, x, y + h, color);
+
+  line(machine, x + w, y, x + w, y + h, color);
+  line(machine, x, y + h, x + w, y + h, color);
+}
 void print_symbol(Jvcr *machine, char symbol, u32 x, u32 y, byte color) {
   ptr_t index = FONTS_START + symbol * FONTS_UNIT;
   for (byte row = 0; row < FONTS_UNIT; row++) {
