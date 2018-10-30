@@ -6,6 +6,7 @@
 #include <jvcr_ecm_01/ram.h>
 #include <time.h>
 #include <math.h>
+#include <jvcr_ecm_01/input.h>
 
 static GLFWwindow *window;
 
@@ -86,8 +87,47 @@ static void error_callback(int error, const char *description) {
 }
 
 static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+  Jvcr *machine = glfwGetWindowUserPointer(window);
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     glfwSetWindowShouldClose(window, GL_TRUE);
+
+  byte k = jvcr_peek(machine->ram, GAMEPADS_START);
+  BTN_MAP key_row = *(BTN_MAP*)&k;
+  // TODO: add second player support
+  // TODO: add full keyboard support
+  if (key == GLFW_KEY_W) {
+    if (action == GLFW_PRESS) key_row.up = 1;
+    if (action == GLFW_RELEASE) key_row.up = 0;
+  }
+  if (key == GLFW_KEY_S) {
+    if (action == GLFW_PRESS) key_row.down = 1;
+    if (action == GLFW_RELEASE) key_row.down = 0;
+  }
+  if (key == GLFW_KEY_A) {
+    if (action == GLFW_PRESS) key_row.left = 1;
+    if (action == GLFW_RELEASE) key_row.left = 0;
+  }
+  if (key == GLFW_KEY_D) {
+    if (action == GLFW_PRESS) key_row.right = 1;
+    if (action == GLFW_RELEASE) key_row.right = 0;
+  }
+  if (key == GLFW_KEY_Z) {
+    if (action == GLFW_PRESS) key_row.btn_a = 1;
+    if (action == GLFW_RELEASE) key_row.btn_a = 0;
+  }
+  if (key == GLFW_KEY_X) {
+    if (action == GLFW_PRESS) key_row.btn_b = 1;
+    if (action == GLFW_RELEASE) key_row.btn_b = 0;
+  }
+  if (key == GLFW_KEY_C) {
+    if (action == GLFW_PRESS) key_row.btn_x = 1;
+    if (action == GLFW_RELEASE) key_row.btn_x = 0;
+  }
+  if (key == GLFW_KEY_V) {
+    if (action == GLFW_PRESS) key_row.btn_y = 1;
+    if (action == GLFW_RELEASE) key_row.btn_y = 0;
+  }
+  jvcr_poke(machine->ram, GAMEPADS_START, *(byte*)&key_row);
 }
 
 static void setup_windows(JvcrDisplay *display) {
@@ -107,7 +147,6 @@ static void setup_windows(JvcrDisplay *display) {
     exit(EXIT_FAILURE);
   }
   glfwMakeContextCurrent(window);
-  glfwSetKeyCallback(window, key_callback);
 }
 
 static void fill_texture(Jvcr *machine) {
@@ -170,7 +209,7 @@ static double get_current_time() {
     s++;
     ms = 0;
   }
-  return s + ms/1000.0;
+  return s + ms / 1000.0;
 }
 
 void RunLoop(Jvcr *machine) {
@@ -191,4 +230,9 @@ void RunLoop(Jvcr *machine) {
     update_texture(machine->display);
     Draw(machine);
   }
+}
+
+void input_init(Jvcr *machine) {
+  glfwSetWindowUserPointer(window, machine);
+  glfwSetKeyCallback(window, key_callback);
 }

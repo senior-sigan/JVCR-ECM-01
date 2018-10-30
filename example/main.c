@@ -4,6 +4,7 @@
 #include <jvcr_ecm_01/display.h>
 #include <jvcr_ecm_01/render.h>
 #include <math.h>
+#include <jvcr_ecm_01/input.h>
 
 #define DRAW_TIME 20
 static void empty_draw(Jvcr *, double);
@@ -108,10 +109,22 @@ static void print_hello_world(Jvcr *machine, double delta) {
   }
 }
 
+static void gamepad(Jvcr *machine, double delta) {
+  cls(machine, 0);
+  if (btn(machine, BTN_UP, 0)) print_symbol(machine, 'W', 10, 1, 8);
+  if (btn(machine, BTN_DOWN, 0)) print_symbol(machine, 'S', 10, 10, 8);
+  if (btn(machine, BTN_LEFT, 0)) print_symbol(machine, 'A', 1, 10, 8);
+  if (btn(machine, BTN_RIGHT, 0)) print_symbol(machine, 'D', 20, 10, 8);
+  if (btn(machine, BTN_A, 0)) print_symbol(machine, 'Z', 1, 30, 8);
+  if (btn(machine, BTN_B, 0)) print_symbol(machine, 'X', 10, 30, 8);
+  if (btn(machine, BTN_X, 0)) print_symbol(machine, 'C', 20, 30, 8);
+  if (btn(machine, BTN_Y, 0)) print_symbol(machine, 'V', 30, 30, 8);
+}
+
 void empty_draw(Jvcr *machine, double delta) {
   if (machine->time > 1) { // after 10 seconds enable another demo
     machine->time = 0;
-    machine->onDraw = &print_hello_world;
+    machine->onDraw = &gamepad;
   }
 }
 
@@ -121,6 +134,7 @@ int main(void) {
   set_default_pallet(machine);
   set_default_font(machine);
   rendering_init(machine);
+  input_init(machine);
   RunLoop(machine);
   rendering_stop(machine);
   DestroyJvcr(machine);
