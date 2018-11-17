@@ -23,4 +23,5 @@ include_directories(${OPENGL_INCLUDE_DIR})
 
 add_subdirectory(src)
 add_subdirectory(example)
+add_subdirectory(python)
 add_subdirectory(tests)
