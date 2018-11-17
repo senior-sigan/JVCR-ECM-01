@@ -4,7 +4,7 @@
 #include <jvcr_ecm_01/ram.h>
 
 void cls(Jvcr *machine, byte color) {
-  jvcr_memset(machine->ram, SCREEN_START, 0, SCREEN_SIZE);
+  jvcr_memset(machine->ram, SCREEN_START, color, SCREEN_SIZE);
 }
 
 void pset(Jvcr *machine, u32 x, u32 y, byte color) {

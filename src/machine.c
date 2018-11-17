@@ -7,13 +7,16 @@ Jvcr *NewJvcr() {
   machine->ram = NewJvcrRam();
   machine->display = NewJvcrDisplay();
   machine->time = 0;
+  machine->onInit = NULL;
+  machine->onUpdate60 = NULL;
+  machine->onUpdate = NULL;
+  machine->onDraw = NULL;
+  machine->onDestroy = NULL;
   printf("Jvcr machine is created: allocated %d bytes\n", RAM_SIZE);
-  if (machine->onInit != NULL) machine->onInit(machine);
   return machine;
 }
 
 void DestroyJvcr(Jvcr *machine) {
-  if (machine->onDestroy != NULL) machine->onDestroy(machine);
   DestroyJvcrRam(machine->ram);
   DestroyJvcrDisplay(machine->display);
   free(machine);
