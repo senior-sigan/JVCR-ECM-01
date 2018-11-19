@@ -1,7 +1,8 @@
 #include <Python.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "jvcr.h"
+#include <jvcr_ecm_01/machine.h>
+#include <jvcr_ecm_01_python/jvcr.h>
 
 static PyObject *updateFunc;
 

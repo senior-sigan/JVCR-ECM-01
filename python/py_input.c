@@ -1,6 +1,6 @@
-#include "py_input.h"
-#include "jvcr.h"
 #include <jvcr_ecm_01/input.h>
+#include <Python.h>
+#include <jvcr_ecm_01_python/jvcr.h>
 
 PyObject *jvcr_btn(PyObject *self, PyObject *args) {
   byte btn_id;

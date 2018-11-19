@@ -1,8 +1,8 @@
-#include "py_display.h"
-#include "jvcr.h"
 #include <jvcr_ecm_01/display.h>
 #include <jvcr_ecm_01/render.h>
 #include <jvcr_ecm_01/input.h>
+#include <Python.h>
+#include <jvcr_ecm_01_python/jvcr.h>
 
 PyObject *jvcr_cls(PyObject *self, PyObject *args) {
   byte color;

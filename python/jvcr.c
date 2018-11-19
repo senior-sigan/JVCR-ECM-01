@@ -1,9 +1,9 @@
 #include <jvcr_ecm_01/display.h>
 #include <jvcr_ecm_01/render.h>
 #include <jvcr_ecm_01/input.h>
-#include "jvcr.h"
-#include "py_display.h"
-#include "py_input.h"
+#include <jvcr_ecm_01_python/jvcr.h>
+#include <jvcr_ecm_01_python/py_display.h>
+#include <jvcr_ecm_01_python/py_input.h>
 
 static PyMethodDef JvcrMethods[] = {
     {"cls", jvcr_cls, METH_VARARGS, NULL},
@@ -24,7 +24,7 @@ static PyModuleDef JvcrModule = {
 };
 
 PyObject *PyInit_jvcr(void) {
-  PyObject * module = PyModule_Create(&JvcrModule);
+  PyObject *module = PyModule_Create(&JvcrModule);
   PyModule_AddIntConstant(module, "DISPLAY_WIDTH", DISPLAY_WIDTH);
   PyModule_AddIntConstant(module, "DISPLAY_HEIGHT", DISPLAY_HEIGHT);
   PyModule_AddIntConstant(module, "PALETTE_LEN", PALETTE_LEN);
