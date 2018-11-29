@@ -4,6 +4,10 @@
 #define DISPLAY_WIDTH 256u
 #define DISPLAY_HEIGHT 144u
 #define DISPLAY_CHANNELS 4u
+#define SPRITE_WIDTH 8u
+#define SPRITE_HEIGHT 8u
+#define TILE_WIDTH 8u
+#define TILE_HEIGHT 8u
 
 #define SCREEN_START 0x0
 // To avoid 4bit settings, and simplify code we allocate 8 bits for color instead of 4 bits.
