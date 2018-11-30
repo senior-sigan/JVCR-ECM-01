@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <jvcr_ecm_01/ram.h>
+#include <jvcr_ecm_01/fonts.h>
+#include <jvcr_ecm_01/default_font.h>
 
 void cls(Jvcr *machine, byte color) {
   jvcr_memset(machine->ram, SCREEN_START, color, SCREEN_SIZE);

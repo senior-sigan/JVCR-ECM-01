@@ -1,6 +1,10 @@
+#ifndef PROJECT_DEFAULT_FONT_H
+#define PROJECT_DEFAULT_FONT_H
+
 #include <jvcr_ecm_01/fonts.h>
 
-const Font DEFAULT_FONT[] = {
+// TODO: load default font from a resource file
+const Font DEFAULT_FONT[256] = {
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0},
@@ -258,3 +262,5 @@ const Font DEFAULT_FONT[] = {
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0}
 };
+
+#endif //PROJECT_DEFAULT_FONT_H
