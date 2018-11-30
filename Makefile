@@ -29,7 +29,7 @@ clean:
 fast_build:
 	cd cmake-build-debug;make JVCR-ECM-01-PYTHON -j4
 
-run: fast_build exec
+run: fast_build exec-python
 
 deps-osx:
 	brew install glfw3 --HEAD
