@@ -5,4 +5,4 @@ include_directories(${PYTHON_INCLUDE_DIRS})
 
 add_executable(JVCR-ECM-01-PYTHON ${PY_SOURCES})
 
-target_link_libraries(JVCR-ECM-01-PYTHON ${PYTHON_LIBRARIES} ${OPENGL_gl_LIBRARY} glfw JVCR-ECM-01)
+target_link_libraries(JVCR-ECM-01-PYTHON ${PYTHON_LIBRARIES} ${OPENGL_gl_LIBRARY} glfw m JVCR-ECM-01)
