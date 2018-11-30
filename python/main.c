@@ -52,8 +52,6 @@ int main(int argc, char *argv[]) {
   Py_XDECREF(updateFunc);
   Py_DECREF(pModule);
 
-  if (Py_FinalizeEx() < 0) {
-    return 120;
-  }
+  Py_Finalize();
   return 0;
 }
