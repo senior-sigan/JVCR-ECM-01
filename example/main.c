@@ -6,8 +6,9 @@
 #include <math.h>
 #include <jvcr_ecm_01/input.h>
 
-#define DRAW_TIME 20
+#define DRAW_TIME 5
 static void empty_draw(Jvcr *, double);
+static void gamepad(Jvcr *, double);
 
 static void random_noice_draw(Jvcr *machine, double delta) {
   for (u32 x = 0; x < DISPLAY_WIDTH; x++) {
@@ -19,7 +20,7 @@ static void random_noice_draw(Jvcr *machine, double delta) {
 
   if (machine->time > DRAW_TIME) { // after 10 seconds enable another demo
     machine->time = 0;
-    machine->onDraw = &empty_draw;
+    machine->onDraw = &gamepad;
   }
 }
 
@@ -122,13 +123,13 @@ static void gamepad(Jvcr *machine, double delta) {
 
   if (machine->time > DRAW_TIME) { // after 10 seconds enable another demo
     machine->time = 0;
-    machine->onDraw = &print_hello_world;
+    machine->onDraw = &empty_draw;
   }
 }
 
 void empty_draw(Jvcr *machine, double delta) {
   machine->time = 0;
-  machine->onDraw = &gamepad;
+  machine->onDraw = &print_hello_world;
 }
 
 int main(void) {
