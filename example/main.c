@@ -5,6 +5,7 @@
 #include <jvcr_ecm_01/render.h>
 #include <math.h>
 #include <jvcr_ecm_01/input.h>
+#include <jvcr_ecm_01/import_sprites.h>
 
 #define DRAW_TIME 5
 static void empty_draw(Jvcr *, double);
@@ -128,8 +129,9 @@ static void gamepad(Jvcr *machine, double delta) {
 }
 
 void empty_draw(Jvcr *machine, double delta) {
+  spr(machine, 0, 0, 0, 0, 256, 144, 0, 0, 0);
   machine->time = 0;
-  machine->onDraw = &print_hello_world;
+//  machine->onDraw = &print_hello_world;
 }
 
 int main(void) {
@@ -139,6 +141,7 @@ int main(void) {
   set_default_font(machine);
   rendering_init(machine);
   input_init(machine);
+//  import_sprites(machine, "test.png", 0);
   RunLoop(machine);
   rendering_stop(machine);
   DestroyJvcr(machine);

@@ -16,6 +16,8 @@ void camera(Jvcr *machine, i32 x, i32 y); // set camera position
 void clip(Jvcr *machine, i32 x, i32 y, u32 w, u32 h); // set screen clipping region
 void cursor(Jvcr *machine, i32 x, i32 y); // set cursor and CR/LF margin position
 
+void spr(Jvcr *machine, i32 screen_x, i32 screen_y, i32 sheet_x, i32 sheet_y, u32 width, u32 height, byte flip, byte rotate, byte scale);
+
 void print(Jvcr *machine, char* str, u32 x, u32 y, byte color); // print string
 void print_symbol(Jvcr *machine, char symbol, u32 x, u32 y, byte color); // print single symbol
 

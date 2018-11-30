@@ -142,8 +142,19 @@ void set_font(Jvcr *machine, char symbol, Font font) {
     jvcr_poke(machine->ram, index + i, font.lines[i]);
   }
 }
+
 void set_default_font(Jvcr *machine) {
   for (byte i = 0; i < 255; i++) {
     set_font(machine, i, DEFAULT_FONT[i]);
+  }
+}
+
+void spr(Jvcr *machine, i32 screen_x, i32 screen_y, i32 sheet_x, i32 sheet_y, u32 width, u32 height, byte flip, byte rotate, byte scale) {
+  for (u32 i = 0; i < width; i++) {
+    for (u32 j = 0; j < height; j++) {
+      u32 ptr = SPRITES_START + (sheet_y +j) * SPRITE_BOX_WIDTH + (sheet_x + i);
+      byte color = jvcr_peek(machine->ram, ptr);
+      pset(machine, screen_x + i, screen_y + j, color);
+    }
   }
 }
