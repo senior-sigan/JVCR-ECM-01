@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.6)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_STANDARD 11)
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -Werror -Wextra -Wzero-as-null-pointer-constant -Winit-self -Wswitch-default -Wfloat-equal -Wno-unused-parameter -fPIC -march=native")
-
+set( CMAKE_VERBOSE_MAKEFILE on )
 set(CMAKE_DIR "${PROJECT_SOURCE_DIR}/CMake")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_DIR})
 

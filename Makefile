@@ -25,3 +25,9 @@ fast_build:
 	cd cmake-build-debug;make JVCR-ECM-01-PYTHON -j4
 
 run: fast_build exec
+
+deps-osx:
+	brew install glfw3 --HEAD
+
+deps-linux:
+	sudo apt install libpython3-dev libglfw3-dev
