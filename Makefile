@@ -1,4 +1,6 @@
-all: build-python exec
+all: build-python exec-python
+
+example: build-example exec-example
 
 mkdir_build: clean
 	[ -d ./cmake-build-debug ] | mkdir -p cmake-build-debug
@@ -15,8 +17,11 @@ build-example: reload
 build-test: reload
 	cd cmake-build-debug;make JVCR-ECM-01-TEST -j4
 
-exec:
+exec-python:
 	./cmake-build-debug/python/JVCR-ECM-01-PYTHON ./python/examples/
+
+exec-example:
+	./cmake-build-debug/example/JVCR-ECM-01-EXAMPLE
 
 clean:
 	rm -rf cmake-build-debug

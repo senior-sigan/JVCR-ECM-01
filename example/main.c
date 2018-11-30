@@ -119,13 +119,16 @@ static void gamepad(Jvcr *machine, double delta) {
   if (btn(machine, BTN_B, 0)) print_symbol(machine, 'X', 10, 30, 8);
   if (btn(machine, BTN_X, 0)) print_symbol(machine, 'C', 20, 30, 8);
   if (btn(machine, BTN_Y, 0)) print_symbol(machine, 'V', 30, 30, 8);
+
+  if (machine->time > DRAW_TIME) { // after 10 seconds enable another demo
+    machine->time = 0;
+    machine->onDraw = &print_hello_world;
+  }
 }
 
 void empty_draw(Jvcr *machine, double delta) {
-  if (machine->time > 1) { // after 10 seconds enable another demo
-    machine->time = 0;
-    machine->onDraw = &gamepad;
-  }
+  machine->time = 0;
+  machine->onDraw = &gamepad;
 }
 
 int main(void) {
