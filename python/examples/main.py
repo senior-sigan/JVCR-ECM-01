@@ -1,4 +1,4 @@
-import fade
+import line_prisma_draw
 
 def update(dt):
-    fade.update(dt)
+    line_prisma_draw.update(dt)
