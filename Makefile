@@ -3,7 +3,7 @@ all: build-python exec
 mkdir_build: clean
 	[ -d ./cmake-build-debug ] | mkdir -p cmake-build-debug
 
-reload: mkdir_build
+reload: mkdir_build CC=clang CXX=clang++
 	cd cmake-build-debug;cmake ..
 
 build-python: reload
