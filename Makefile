@@ -3,8 +3,8 @@ all: build-python exec
 mkdir_build: clean
 	[ -d ./cmake-build-debug ] | mkdir -p cmake-build-debug
 
-reload: mkdir_build CC=clang CXX=clang++
-	cd cmake-build-debug;cmake ..
+reload: mkdir_build
+	cd cmake-build-debug;CC=clang CXX=clang++ cmake ..
 
 build-python: reload
 	cd cmake-build-debug;make JVCR-ECM-01-PYTHON -j4
